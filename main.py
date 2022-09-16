@@ -9,6 +9,8 @@ import yfinance as yf
 css_sheet = [dbc.themes.SPACELAB]
 BS = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 app = Dash(__name__, external_stylesheets=css_sheet)
+server = app.server
+
 app.layout = html.Div([
     dbc.Button("Contact Me!", href='https://www.linkedin.com/in/saad-khan-167704163/', external_link=True),
     html.H1('Cryptocurrency Live updates', style={'textAlign': 'center'}),
