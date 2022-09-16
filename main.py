@@ -15,9 +15,9 @@ app.layout = html.Div([
     html.Div([
         html.Label('Select Cryptocurrency Pair'),
         dcc.Dropdown(id='cryptocurrency-pair', options=sorted(['ADA-EUR', 'BTC-USD', 'ETH-USD', 'ALGO-USD', 'BAT-USD',
-                                                        'CAKE-USD', 'CRV-USD', 'DENT-USD', 'DOGE-USD', 'LUNA-USD',
-                                                        'CRV-USD', 'FTM-USD', 'IRIS-USD', 'MANA-USD', 'NEAR-USD',
-                                                        'OCEAN-USD', 'ROSE-USD', 'SLP-USD', 'SOL-USD', ]),
+                                                               'CAKE-USD', 'CRV-USD', 'DENT-USD', 'DOGE-USD', 'LUNA-USD',
+                                                               'CRV-USD', 'FTM-USD', 'IRIS-USD', 'MANA-USD', 'NEAR-USD',
+                                                               'OCEAN-USD', 'ROSE-USD', 'SLP-USD', 'SOL-USD', ]),
                      style={'width':'50%'},
                      value='BTC-USD'),
 
@@ -40,29 +40,28 @@ app.layout = html.Div([
     )
 ], style={'backgroundColor': 'Lightgreen'})
 
+
 @app.callback([Output('my-graph-candlestick', 'figure'),
                Output('my-graph-line', 'figure')],
               [Input('cryptocurrency-pair', 'value'),
                Input('time-frame', 'value')])
 def update_graph(crypto, time_frame):
-
     if time_frame in ['10y', '1y']:
         interval = '1d'
     elif time_frame in ['6mo']:
         interval = '4h'
-    elif time_frame in['3mo']:
+    elif time_frame in ['3mo']:
         interval = '1h'
     else:
         interval = '15m'
 
-    df = yf.download(tickers=crypto, period = time_frame, interval = interval)
-
+    df = yf.download(tickers=crypto, period=time_frame, interval=interval)
 
     fig1 = go.Figure(data=[go.Candlestick(x=df.index,
-                                        open=df.Open,
-                                         high=df.High,
-                                         low=df.Low,
-                                         close=df.Close)])
+                                          open=df.Open,
+                                          high=df.High,
+                                          low=df.Low,
+                                          close=df.Close)])
     fig1.update_layout(title=f'Candle Chart of {crypto}', xaxis_title='Time', yaxis_title=f'{crypto}')
 
     fig2 = px.line(data_frame=df, x=df.index, y=df['Volume'], markers='o')
@@ -71,8 +70,7 @@ def update_graph(crypto, time_frame):
 
 
 
-
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
 
 
